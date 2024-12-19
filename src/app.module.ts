@@ -4,15 +4,16 @@ import { ConfigModule } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { AuthModule } from './auth/auth.module';
 import { MailerModule } from '@nestjs-modules/mailer';
+import { GoogleAuthModule } from './google-auth/auth.module';
 
 @Module({
-  imports: [ConfigModule.forRoot(),MongooseModule.forRoot('mongodb://localhost:27017/nest_js'),
+  imports: [ConfigModule.forRoot(),MongooseModule.forRoot(process.env.URL_DATABASE),
     JwtModule.register({
       global: true,
       secret: process.env.JWT_SECRET,
       signOptions: { expiresIn: '6000s' },
     }),
-    AuthModule,
+    AuthModule,GoogleAuthModule,
     MailerModule.forRoot({
       transport: {
         service:"gmail",
